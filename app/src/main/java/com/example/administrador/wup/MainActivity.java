@@ -1,4 +1,5 @@
 package com.example.administrador.wup;
+
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -18,6 +19,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +28,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,7 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BaseDatosAlarma alarmas;
     private SQLiteDatabase bd;
     private ContentValues registro; // Guarda los datos de la alarma antes de pasarla a la BD
-
+    Button btnGuardar;
+    Button btnCancelar;
     EditText txtFecha;
     EditText txtHora;
     private int anoSys, mesSys, diaSys, ano2, mes2, dia2;
@@ -56,13 +60,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtHora = (EditText) findViewById(R.id.txtHora);
         txtFecha.setOnClickListener(this);
         txtHora.setOnClickListener(this);
-
+        btnGuardar = (Button) findViewById(R.id.btnGuardar);
+        btnCancelar = (Button) findViewById(R.id.btnCancelar);
+        btnGuardar.setOnClickListener(this);
+        btnCancelar.setOnClickListener(this);
 
         BaseDatosAlarma alarmas = new BaseDatosAlarma(this, "BbAlarmas", null, 1);
         bd = alarmas.getWritableDatabase();
-
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
 
 
 
@@ -74,12 +78,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //update_text = (TextView) findViewById(R.id.update_text);
 
         final Calendar calendar = Calendar.getInstance();
-        Button btnGuardar = (Button) findViewById(R.id.btnGuardar);
-        Button btnCancelar = (Button) findViewById(R.id.btnCancelar);
+
 
         final Intent my_intent = new Intent(this.context, AlarmReceiver.class);
 
-        btnCancelar.setOnClickListener(new View.OnClickListener(){
+      /*  btnCancelar.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 alarm_manager.cancel(pending_intent);
                 my_intent.putExtra("extra", "alarm off");
@@ -87,9 +90,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //Para el sonido
                 sendBroadcast(my_intent);
             }
-        });
+        }); */
 
-        btnGuardar.setOnClickListener(new View.OnClickListener(){
+      /*  btnGuardar.setOnClickListener(new View.OnClickListener(){
             @RequiresApi(api = Build.VERSION_CODES.N)
             public void onClick(View v){
                 calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
@@ -117,28 +120,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 alarm_manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                         pending_intent);
             }
-        });
+        });*/
 
     }
 
     public void llenarBaseDatos(){
         // Abrimos la BD 'Alarma' en modo escritura
         // Aqui es donde se verifica si la BD Alumnos existe, si no, la creará.
-        BaseDatosAlarma  alarmas = new BaseDatosAlarma(this, "BbAlarmas", null, 1);
+        BaseDatosAlarma alarmas = new BaseDatosAlarma(this, "BaseDatosAlarma", null, 1);
         SQLiteDatabase bd = alarmas.getWritableDatabase();
-        registro = new ContentValues();
-            /*registro.put("mensaje", t5.getText().toString());//nombre del campo
-            registro.put("fecha", t6.getText().toString());
-            registro.put("hora", t7.getText().toString());*/
-        bd.insert("alarma", null, registro);//nombre de la tabla
+        bd.execSQL("INSERT INTO Alarmas (fecha, hora, numPreguntas, sonido) VALUES ('"+txtFecha.getText().toString()+"', '"+txtHora.getText().toString()+":00', 3, 'sound_effects_extreme_clock_alarm')");
+            /*registro = new ContentValues();
+            registro.put("fecha", txtFecha.getText().toString());
+            registro.put("hora", txtHora.getText().toString());
+            registro.put("numPreguntas", 3); // -----------------        NOTA:       Hay que implementar la cantidad de preguntas dinámica.
+            registro.put("sonido", "sound_effects_extreme_clock_alarm"); //  Y aquí también dinámico.
+            bd.insert("Alarmas", null, registro);// Nombre de la tabla (Alarmas).*/
         bd.close();
-            /*t3.setText("");
-            t5.setText("");
-            t6.setText("");
-            t7.setText("");
-            Toast.makeText(this, "alarma registrada", Toast.LENGTH_LONG).show();*/
-
+        Toast toast = Toast.makeText(this, "La alarma ha sido guardada.", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.show();
+        txtFecha.setText("");
+        txtHora.setText("");
     }
+
     /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -153,14 +158,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
        /* if (id == R.id.action_settings) {
             return true;
         }*/
-
         return super.onOptionsItemSelected(item);
     }
+
 
     @TargetApi(Build.VERSION_CODES.N)
     @Override
@@ -183,10 +187,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             },hora2,minuto2,false);
             timePickerDialog.show();
         }
+        else if (v == btnGuardar){
+            if(!txtHora.getText().toString().equals("") && !txtFecha.getText().toString().equals("")){
+                llenarBaseDatos();
+            }
+            else{
+                Toast toast = Toast.makeText(this, "Llene todos los campos.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.show();
+            }
+        }
+
+        else if (v == btnCancelar){
+            final Intent my_intent = new Intent(this.context, AlarmReceiver.class);
+            alarm_manager.cancel(pending_intent);
+            my_intent.putExtra("extra", "alarm off");
+            //Para el sonido
+            sendBroadcast(my_intent);
+        }
     }
 
     private void colocarFecha(){
-        txtFecha.setText(dia2+"/"+(mes2+1)+"/"+ano2);
+        txtFecha.setText(ano2+"-"+(mes2+1)+"-"+dia2);
     }
 
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener(){

@@ -9,8 +9,9 @@
     <RelativeLayout
         android:layout_width="383dp"
         android:layout_height="513dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent">
 
         <Button
             android:id="@+id/btnGuardar"
