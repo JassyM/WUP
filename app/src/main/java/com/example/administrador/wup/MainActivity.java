@@ -68,18 +68,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         BaseDatosAlarma alarmas = new BaseDatosAlarma(this, "BbAlarmas", null, 1);
         bd = alarmas.getWritableDatabase();
 
-
-
         this.context = this;
         alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         //alarm_timepicker = (TimePicker) findViewById(R.id.timePicker);
-
         //update_text = (TextView) findViewById(R.id.update_text);
 
         final Calendar calendar = Calendar.getInstance();
-
-
         final Intent my_intent = new Intent(this.context, AlarmReceiver.class);
 
       /*  btnCancelar.setOnClickListener(new View.OnClickListener(){
