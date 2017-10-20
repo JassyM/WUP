@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrador.wup.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="383dp"
+        android:layout_height="513dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <Button
+            android:id="@+id/btnGuardar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="33dp"
+            android:layout_marginEnd="38dp"
+            android:text="Guardar"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/txtHora"/>
+
+        <Button
+            android:id="@+id/btnCancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:layout_alignBaseline="@+id/btnGuardar"
+            android:layout_alignBottom="@+id/btnGuardar"
+            android:layout_alignStart="@+id/textHora"
+            android:layout_marginStart="35dp" />
+
+        <TextView
+            android:id="@+id/textFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="39dp"
+            android:layout_marginTop="40dp"
+            android:text="Fecha:"
+            android:textSize="50px"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/textHora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textFecha"
+            android:layout_below="@+id/textFecha"
+            android:layout_marginTop="49dp"
+            android:text="Hora"
+            android:textSize="50px" />
+
+        <EditText
+            android:id="@+id/txtFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textFecha"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/textFecha"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/txtHora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textHora"
+            android:layout_alignBottom="@+id/textHora"
+            android:layout_alignStart="@+id/txtFecha"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/textSelePreguntas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seleccione la cantidad de preguntas que desea:"
+            android:textSize="50px"
+            android:layout_marginTop="38dp"
+            android:layout_below="@+id/txtHora"
+            android:layout_alignStart="@+id/textHora"
+            android:layout_alignEnd="@+id/textSeleCancion" />
+
+        <TextView
+            android:id="@+id/textSeleCancion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seleccione el sonido que desea:"
+            android:textSize="50px"
+            android:layout_marginTop="70dp"
+            android:layout_below="@+id/textSelePreguntas"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
